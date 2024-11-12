@@ -5,10 +5,9 @@ var current_status = statuses[0]
 
 signal status_changed
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
+func reset() -> void:
+	current_status = statuses[0]
+	start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 @onready var decay_rate: int = wait_time / len(statuses)

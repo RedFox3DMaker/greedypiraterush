@@ -10,11 +10,19 @@ var inputs = {
 var statuses = ["100", "75", "50", "25"]
 var status_index = 0
 var moving = false
+var current_dir = "down"
 
 signal is_dead
 
 @export var animation_speed: int = 3
 
+
+func reset(initial_pos: Vector2) -> void:
+	position = initial_pos
+	status_index = 0
+	current_dir = "down"
+	update_animation(current_dir)
+	show()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,7 +31,7 @@ func _ready() -> void:
 
 
 @onready var anim_player = $AnimationPlayer
-func change_animation(dir: String) -> void:
+func update_animation(dir: String) -> void:
 	if status_index < len(statuses):
 		anim_player.play(dir + statuses[status_index])
 	else:
@@ -50,9 +58,12 @@ func _physics_process(delta: float) -> void:
 		return
 	for dir in inputs.keys():
 		if Input.is_action_pressed(dir):
-			change_animation(dir)
+			if dir != current_dir:
+				update_animation(dir)
+				current_dir = dir
 			move(dir)
 
 
 func _on_timer_status_changed() -> void:
-	status_index += 1 # Replace with function body.
+	status_index += 1
+	update_animation(current_dir)
