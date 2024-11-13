@@ -36,6 +36,8 @@ offset_top = 39.0
 offset_right = 201.0
 offset_bottom = 39.0
 
+[connection signal="ask_for_reward" from="Player" to="." method="_on_player_ask_for_reward"]
+[connection signal="has_won" from="Player" to="EndScreen" method="_on_player_has_won"]
 [connection signal="is_dead" from="Player" to="EndScreen" method="_on_player_is_dead"]
 [connection signal="status_changed" from="Timer" to="Player" method="_on_timer_status_changed"]
 [connection signal="timeout" from="Timer" to="EndScreen" method="_on_timer_timeout"]

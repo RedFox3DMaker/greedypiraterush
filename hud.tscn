@@ -1,16 +1,18 @@
-[gd_scene load_steps=18 format=3 uid="uid://b85oycvx061u2"]
+[gd_scene load_steps=20 format=3 uid="uid://b85oycvx061u2"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_jed3g"]
 [ext_resource type="LabelSettings" uid="uid://cx50yfbdnme4d" path="res://assets/label_settings.tres" id="1_sqe0k"]
 [ext_resource type="FontFile" uid="uid://dh5nqh4k888dg" path="res://assets/Kenney Future Narrow.ttf" id="2_mfr1n"]
-[ext_resource type="Texture2D" uid="uid://ctyp31rw8ulr1" path="res://assets/keyboard_z_outline.png" id="3_alnvd"]
-[ext_resource type="Texture2D" uid="uid://mqj6exsbhoub" path="res://assets/keyboard_arrow_up_outline.png" id="4_ywrcx"]
-[ext_resource type="Texture2D" uid="uid://cmcy6fjthj1ag" path="res://assets/keyboard_q_outline.png" id="5_102if"]
-[ext_resource type="Texture2D" uid="uid://dnlcu0inwpg5k" path="res://assets/keyboard_arrow_left_outline.png" id="6_sdmpt"]
-[ext_resource type="Texture2D" uid="uid://b4rsfvvh7whup" path="res://assets/keyboard_s_outline.png" id="7_t0dpo"]
-[ext_resource type="Texture2D" uid="uid://dqlljbiti8rbc" path="res://assets/keyboard_arrow_down_outline.png" id="8_416mp"]
-[ext_resource type="Texture2D" uid="uid://dw55s7xa5w7ng" path="res://assets/keyboard_d_outline.png" id="9_f60on"]
-[ext_resource type="Texture2D" uid="uid://bwt3p3d338vha" path="res://assets/keyboard_arrow_right_outline.png" id="10_7ca8s"]
+[ext_resource type="Texture2D" uid="uid://lunagyclxw60" path="res://assets/keyboard_z.png" id="4_e73ji"]
+[ext_resource type="Texture2D" uid="uid://dhjtpjef6sddm" path="res://assets/keyboard_arrow_up.png" id="5_ipoyj"]
+[ext_resource type="Texture2D" uid="uid://dqbxnid3gopqq" path="res://assets/keyboard_q.png" id="6_7mosd"]
+[ext_resource type="Texture2D" uid="uid://gw878fbfuqbx" path="res://assets/keyboard_arrow_left.png" id="7_eqb2a"]
+[ext_resource type="Texture2D" uid="uid://bh1v5ks4s5mrp" path="res://assets/keyboard_s.png" id="8_irdp3"]
+[ext_resource type="Texture2D" uid="uid://cqx3fkcwhr3ti" path="res://assets/keyboard_arrow_down.png" id="9_3asdy"]
+[ext_resource type="Texture2D" uid="uid://brvrnxiht063j" path="res://assets/keyboard_d.png" id="10_rro4x"]
+[ext_resource type="Texture2D" uid="uid://brq7qivaytl11" path="res://assets/keyboard_arrow_right.png" id="11_6p4a6"]
+[ext_resource type="Texture2D" uid="uid://ijtkux1bi1pe" path="res://assets/keyboard_l.png" id="12_jn3m5"]
+[ext_resource type="Texture2D" uid="uid://bvk7yhr30i50d" path="res://assets/keyboard_r.png" id="13_1xlo2"]
 
 [sub_resource type="Gradient" id="Gradient_3s4sx"]
 offsets = PackedFloat32Array(0.109589, 0.474886, 0.86758)
@@ -168,7 +170,7 @@ columns = 4
 
 [node name="ZKey" type="TextureRect" parent="Controls/ControlsList"]
 layout_mode = 2
-texture = ExtResource("3_alnvd")
+texture = ExtResource("4_e73ji")
 
 [node name="Separator" type="Label" parent="Controls/ControlsList"]
 layout_mode = 2
@@ -176,7 +178,7 @@ text = "/"
 
 [node name="UpKey" type="TextureRect" parent="Controls/ControlsList"]
 layout_mode = 2
-texture = ExtResource("4_ywrcx")
+texture = ExtResource("5_ipoyj")
 
 [node name="UpLabel" type="Label" parent="Controls/ControlsList"]
 layout_mode = 2
@@ -184,7 +186,7 @@ text = "Up"
 
 [node name="QKey" type="TextureRect" parent="Controls/ControlsList"]
 layout_mode = 2
-texture = ExtResource("5_102if")
+texture = ExtResource("6_7mosd")
 
 [node name="Separator2" type="Label" parent="Controls/ControlsList"]
 layout_mode = 2
@@ -192,7 +194,7 @@ text = "/"
 
 [node name="LeftKey" type="TextureRect" parent="Controls/ControlsList"]
 layout_mode = 2
-texture = ExtResource("6_sdmpt")
+texture = ExtResource("7_eqb2a")
 
 [node name="LeftLabel" type="Label" parent="Controls/ControlsList"]
 layout_mode = 2
@@ -200,7 +202,7 @@ text = "Left"
 
 [node name="SKey" type="TextureRect" parent="Controls/ControlsList"]
 layout_mode = 2
-texture = ExtResource("7_t0dpo")
+texture = ExtResource("8_irdp3")
 
 [node name="Separator3" type="Label" parent="Controls/ControlsList"]
 layout_mode = 2
@@ -208,7 +210,7 @@ text = "/"
 
 [node name="DownKey" type="TextureRect" parent="Controls/ControlsList"]
 layout_mode = 2
-texture = ExtResource("8_416mp")
+texture = ExtResource("9_3asdy")
 
 [node name="DownLabel" type="Label" parent="Controls/ControlsList"]
 layout_mode = 2
@@ -216,7 +218,7 @@ text = "Down"
 
 [node name="DKey" type="TextureRect" parent="Controls/ControlsList"]
 layout_mode = 2
-texture = ExtResource("9_f60on")
+texture = ExtResource("10_rro4x")
 
 [node name="Separator4" type="Label" parent="Controls/ControlsList"]
 layout_mode = 2
@@ -224,10 +226,26 @@ text = "/"
 
 [node name="RightKey" type="TextureRect" parent="Controls/ControlsList"]
 layout_mode = 2
-texture = ExtResource("10_7ca8s")
+texture = ExtResource("11_6p4a6")
 
 [node name="RightLabel" type="Label" parent="Controls/ControlsList"]
 layout_mode = 2
 text = "Right"
+
+[node name="LKey" type="TextureRect" parent="Controls/ControlsList"]
+layout_mode = 2
+texture = ExtResource("12_jn3m5")
+
+[node name="Separator5" type="Label" parent="Controls/ControlsList"]
+layout_mode = 2
+text = "/"
+
+[node name="RKey" type="TextureRect" parent="Controls/ControlsList"]
+layout_mode = 2
+texture = ExtResource("13_1xlo2")
+
+[node name="RewardLabel" type="Label" parent="Controls/ControlsList"]
+layout_mode = 2
+text = "Reward"
 
 [connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

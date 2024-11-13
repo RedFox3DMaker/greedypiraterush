@@ -11,16 +11,24 @@ var statuses = ["100", "75", "50", "25"]
 var status_index = 0
 var moving = false
 var current_dir = "down"
+var allow_move = true
 
 signal is_dead
+signal has_won
+signal ask_for_reward
 
 @export var animation_speed: int = 3
+
+
+func stop() -> void:
+	allow_move = false
 
 
 func reset(initial_pos: Vector2) -> void:
 	position = initial_pos
 	status_index = 0
 	current_dir = "down"
+	allow_move = true
 	update_animation(current_dir)
 	show()
 
@@ -50,10 +58,16 @@ func move(dir: String) -> void:
 		moving = true
 		await tween.finished
 		moving = false
+		
+func _unhandled_input(event: InputEvent) -> void:
+	if !allow_move: return 
+	if event.is_action_pressed("pick_reward"):
+		ask_for_reward.emit()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	if !allow_move: return
 	if moving:
 		return
 	for dir in inputs.keys():
@@ -67,3 +81,17 @@ func _physics_process(delta: float) -> void:
 func _on_timer_status_changed() -> void:
 	status_index += 1
 	update_animation(current_dir)
+
+
+func _on_body_entered(body: Node2D) -> void:
+	var tilemap = body as TileMapLayer
+	if !tilemap: return
+		
+	var tile_collider_rid = $RayCast2D.get_collider_rid()
+	var tile_coords = tilemap.get_coords_for_body_rid(tile_collider_rid)
+	var tile_data = tilemap.get_cell_tile_data(tile_coords)
+	if !tile_data: return
+	
+	var custom_data = tile_data.get_custom_data("victory")
+	if custom_data:
+		has_won.emit()

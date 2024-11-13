@@ -1,6 +1,6 @@
 extends Control
 
-signal endgame
+signal endgame(gameover: bool)
 
 @onready var anim_player = $AnimationPlayer
 func reset() -> void:
@@ -18,5 +18,10 @@ func _on_player_is_dead() -> void:
 func _game_over() -> void:
 	visible = true
 	anim_player.play("game_over")
-	#$GameOverLabel.visible = true
-	endgame.emit()
+	endgame.emit(true)
+
+
+func _on_player_has_won() -> void:
+	visible = true
+	anim_player.play("victory")
+	endgame.emit(false)
