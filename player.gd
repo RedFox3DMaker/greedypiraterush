@@ -40,10 +40,11 @@ func _ready() -> void:
 	reset(position)
 
 
-@onready var anim_player = $AnimationPlayer
+@onready var sprite = $Sprite2D
+var dir_index = {"down": 0, "right": 1, "up": 2, "left": 3}
 func update_animation(dir: String) -> void:
 	if status_index < len(statuses):
-		anim_player.play(dir + statuses[status_index])
+		sprite.frame = 4*status_index + dir_index[dir]
 	else:
 		is_dead.emit()
 
@@ -56,7 +57,7 @@ func move(dir: String) -> void:
 		var tween = create_tween()
 		tween.tween_property(self, "position", 
 			position + inputs[dir] * tile_size, 
-			1.0/animation_speed).set_trans(Tween.TRANS_SINE)
+			1.0/animation_speed).set_trans(Tween.TRANS_LINEAR)
 		moving = true
 		await tween.finished
 		moving = false
@@ -68,7 +69,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if !allow_move: return
 	if moving:
 		return

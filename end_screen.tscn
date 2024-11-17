@@ -32,15 +32,14 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_8cvbw"]
 resource_name = "game_over"
-length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("GameOverLabel:visible")
-tracks/0/interp = 2
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
+"times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [false, true]
@@ -48,7 +47,6 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_lxc5g"]
 resource_name = "victory"
-length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -56,9 +54,9 @@ tracks/0/path = NodePath("SuccessLabel:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
+"times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
+"update": 0,
 "values": [false, true]
 }
 
