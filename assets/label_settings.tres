@@ -1,9 +1,10 @@
 [gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cx50yfbdnme4d"]
 
-[ext_resource type="FontFile" uid="uid://dh5nqh4k888dg" path="res://assets/Kenney Future Narrow.ttf" id="1_82bdt"]
+[ext_resource type="FontFile" uid="uid://wdjka75qe0dk" path="res://assets/SpicyRice-Regular.ttf" id="1_l6ql1"]
 
 [resource]
-font = ExtResource("1_82bdt")
+line_spacing = 0.0
+font = ExtResource("1_l6ql1")
 font_size = 32
-font_color = Color(1, 0.266667, 0.0862745, 1)
-shadow_color = Color(0.333333, 0.509804, 0.298039, 1)
+font_color = Color(0.935587, 0.293725, 0.28246, 1)
+shadow_color = Color(0.0927526, 0.395647, 0.5204, 1)

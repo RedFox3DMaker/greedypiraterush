@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://ddxax171qe5yl"]
+
+[ext_resource type="FontFile" uid="uid://wdjka75qe0dk" path="res://assets/SpicyRice-Regular.ttf" id="1_umeby"]
+
+[resource]
+font = ExtResource("1_umeby")
+font_size = 20
+font_color = Color(0.443137, 0.792157, 0.960784, 1)
+shadow_color = Color(0.155761, 0.165511, 0.559206, 1)
