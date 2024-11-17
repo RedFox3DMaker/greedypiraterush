@@ -26,16 +26,18 @@ func stop() -> void:
 
 func reset(initial_pos: Vector2) -> void:
 	position = initial_pos
+	position = position.snapped(Vector2.ONE * tile_size)
+	position += Vector2.ONE * tile_size/2
 	status_index = 0
 	current_dir = "down"
 	allow_move = true
 	update_animation(current_dir)
 	show()
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	position = position.snapped(Vector2.ONE * tile_size)
-	position += Vector2.ONE * tile_size/2
+	reset(position)
 
 
 @onready var anim_player = $AnimationPlayer

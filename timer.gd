@@ -10,9 +10,9 @@ func reset() -> void:
 	start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-@onready var decay_rate: int = wait_time / len(statuses)
-func _process(delta: float) -> void:
-	var status_index = floori(wait_time - time_left) / decay_rate
+@onready var decay_rate: int = floori(wait_time / len(statuses))
+func _process(_delta: float) -> void:
+	var status_index = floori((wait_time - time_left) / decay_rate)
 	if status_index >= len(statuses):
 		return
 	var new_status = statuses[status_index]

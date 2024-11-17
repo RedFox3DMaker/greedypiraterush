@@ -41,6 +41,7 @@ func _on_end_screen_endgame(gameover: bool) -> void:
 	if gameover:
 		$Player.hide()
 	$Timer.stop()
+	$Player.stop()
 
 
 func _on_player_ask_for_reward() -> void:
