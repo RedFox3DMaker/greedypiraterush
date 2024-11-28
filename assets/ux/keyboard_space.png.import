@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cahhkggccxm2y"
-path="res://.godot/imported/2024_11_13_GreedyPirateRush.png-96eb476a4792f92cc13378d126305cc7.ctex"
+uid="uid://bomwe1bfrsblc"
+path="res://.godot/imported/keyboard_space.png-a077f23868161ea71e8114bb11b4edcb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/2024_11_13_GreedyPirateRush.png"
-dest_files=["res://.godot/imported/2024_11_13_GreedyPirateRush.png-96eb476a4792f92cc13378d126305cc7.ctex"]
+source_file="res://assets/ux/keyboard_space.png"
+dest_files=["res://.godot/imported/keyboard_space.png-a077f23868161ea71e8114bb11b4edcb.ctex"]
 
 [params]
 

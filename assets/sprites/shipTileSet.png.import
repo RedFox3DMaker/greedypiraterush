@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cahhkggccxm2y"
-path="res://.godot/imported/2024_11_13_GreedyPirateRush.png-96eb476a4792f92cc13378d126305cc7.ctex"
+uid="uid://dk8cd3foqau55"
+path="res://.godot/imported/shipTileSet.png-96ca92fcb59d9e97bd82d4ead8180fca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/2024_11_13_GreedyPirateRush.png"
-dest_files=["res://.godot/imported/2024_11_13_GreedyPirateRush.png-96eb476a4792f92cc13378d126305cc7.ctex"]
+source_file="res://assets/sprites/shipTileSet.png"
+dest_files=["res://.godot/imported/shipTileSet.png-96ca92fcb59d9e97bd82d4ead8180fca.ctex"]
 
 [params]
 
