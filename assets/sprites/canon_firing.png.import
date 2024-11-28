@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvo21c8cgsnkk"
-path="res://.godot/imported/shipIcon.png-f7df5d0bfe8cee720d31c6a9e1818fcf.ctex"
+uid="uid://deam4iw5h6af6"
+path="res://.godot/imported/canon_firing.png-0955ba45cca267cba42a0ace85e128a4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/shipIcon.png"
-dest_files=["res://.godot/imported/shipIcon.png-f7df5d0bfe8cee720d31c6a9e1818fcf.ctex"]
+source_file="res://assets/sprites/canon_firing.png"
+dest_files=["res://.godot/imported/canon_firing.png-0955ba45cca267cba42a0ace85e128a4.ctex"]
 
 [params]
 
