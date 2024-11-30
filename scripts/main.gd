@@ -21,8 +21,9 @@ func get_player_current_tile() -> Vector2i:
 
 func _ready() -> void:
 	init_rewards()
-
-
+	AudioManager.play("ambiant")
+	
+	
 func _on_hud_restart() -> void:
 	# reset the end screen
 	$EndScreen.reset()
@@ -32,14 +33,21 @@ func _on_hud_restart() -> void:
 	
 	# refill the rewards
 	init_rewards()
+	AudioManager.stop_all()
+	AudioManager.play("ambiant")
 	
 	# reset and restart the timer
 	$Timer.reset()
 
 
 func _on_end_screen_endgame(gameover: bool) -> void:
+	AudioManager.stop("ambiant")
 	if gameover:
 		$Player.hide()
+		AudioManager.play("fail")
+	else:
+		AudioManager.play("win")
+		
 	$Timer.stop()
 	$Player.stop()
 
@@ -57,3 +65,4 @@ func _on_player_ask_for_reward() -> void:
 		if !grant_reward: return
 		
 		$HUD.add_to_score(rewards.pop_back())
+		AudioManager.play("coins")

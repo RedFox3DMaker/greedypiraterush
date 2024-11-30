@@ -18,6 +18,14 @@ boot_splash/image="res://assets/backgrounds/GreedyPirateRushSplashScreen.png"
 config/icon="res://icon.svg"
 boot_splash/minimum_display_time=5000
 
+[audio]
+
+buses/default_bus_layout="res://assets/musics/default_bus_layout.tres"
+
+[autoload]
+
+AudioManager="*res://scripts/audio_manager.gd"
+
 [display]
 
 window/size/viewport_width=1080

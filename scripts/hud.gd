@@ -18,8 +18,8 @@ func _on_layout_pref_item_selected(index: int) -> void:
 	var z_key = $Controls/ControlsList/ZKey
 	var q_key = $Controls/ControlsList/QKey
 	if index == 0:
-		z_key.texture = load("res://assets/keyboard_z.png")
-		q_key.texture = load("res://assets/keyboard_q.png")
+		z_key.texture = load("res://assets/ux/keyboard_z.png")
+		q_key.texture = load("res://assets/ux/keyboard_q.png")
 	elif index == 1:
-		z_key.texture = load("res://assets/keyboard_w.png")
-		q_key.texture = load("res://assets/keyboard_a.png")
+		z_key.texture = load("res://assets/ux/keyboard_w.png")
+		q_key.texture = load("res://assets/ux/keyboard_a.png")

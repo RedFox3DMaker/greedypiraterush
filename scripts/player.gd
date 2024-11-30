@@ -59,14 +59,16 @@ func move(dir: String) -> void:
 			position + inputs[dir] * tile_size, 
 			1.0/animation_speed).set_trans(Tween.TRANS_LINEAR)
 		moving = true
+		AudioManager.play("sailing")
 		await tween.finished
 		moving = false
+		
 		
 func _unhandled_input(event: InputEvent) -> void:
 	if !allow_move: return 
 	if event.is_action_pressed("pick_reward"):
 		ask_for_reward.emit()
-
+		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
