@@ -24,7 +24,6 @@ func _process(_delta: float) -> void:
 		status_changed.emit()
 		
 	# check the time_left to play sound
-	print("time_left: ", time_left)
 	if time_left <= 4 and !countdown_started:
 		countdown_started = true
 		AudioManager.play("countdown")

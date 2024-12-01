@@ -24,9 +24,12 @@ func _ready() -> void:
 	AudioManager.play("ambiant")
 	
 	
-func _on_hud_restart() -> void:
+func _on_end_screen_restart() -> void:
 	# reset the end screen
 	$EndScreen.reset()
+	
+	# reset the score
+	$HUD.reset_score()
 	
 	# put the player back to its initial position
 	$Player.reset($PlayerInitialPosition.position) 
