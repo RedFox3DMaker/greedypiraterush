@@ -1,0 +1,124 @@
+[gd_scene load_steps=9 format=3 uid="uid://dyxqsg0qlhmlm"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_d7d72"]
+[ext_resource type="Texture2D" uid="uid://okwq7co7ac8i" path="res://assets/sprites/bullet.png" id="1_hcsme"]
+[ext_resource type="Texture2D" uid="uid://b2i7hl50aolmy" path="res://assets/sprites/bullet_splash.png" id="3_2wlnm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jygtn"]
+atlas = ExtResource("3_2wlnm")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ph4xd"]
+radius = 6.0
+
+[sub_resource type="Animation" id="Animation_j0afa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SplashSprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SplashSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_he1tg"]
+resource_name = "splash"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SplashSprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SplashSprite2D:frame")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aou6o"]
+_data = {
+"RESET": SubResource("Animation_j0afa"),
+"splash": SubResource("Animation_he1tg")
+}
+
+[node name="Bullet" type="Area2D"]
+z_index = 1
+script = ExtResource("1_d7d72")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hcsme")
+
+[node name="SplashSprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("AtlasTexture_jygtn")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ph4xd")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_aou6o")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

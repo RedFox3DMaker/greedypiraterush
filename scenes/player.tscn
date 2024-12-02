@@ -1,22 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://xshjxphjm5f4"]
+[gd_scene load_steps=10 format=3 uid="uid://xshjxphjm5f4"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_f58gm"]
+[ext_resource type="PackedScene" uid="uid://dyxqsg0qlhmlm" path="res://scenes/bullet.tscn" id="2_jds8m"]
 [ext_resource type="Texture2D" uid="uid://dx8sekd0n0e0m" path="res://assets/sprites/ShipSpriteSheet.png" id="2_juv2u"]
 [ext_resource type="Texture2D" uid="uid://deam4iw5h6af6" path="res://assets/sprites/canon_firing.png" id="2_wsjfv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ry7ku"]
 atlas = ExtResource("2_wsjfv")
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_66b52"]
-radius = 28.0
-height = 56.0
-
-[sub_resource type="Animation" id="Animation_shc85"]
+[sub_resource type="Animation" id="Animation_xcnh4"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Canon:frame")
+tracks/0/path = NodePath("Sprite2D/Canon:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -28,7 +25,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Canon:visible")
+tracks/1/path = NodePath("Sprite2D/Canon:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -40,27 +37,26 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_qmt1s"]
 resource_name = "fire"
-length = 1.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Canon:frame")
+tracks/0/path = NodePath("Sprite2D/Canon:frame")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(-0.0333334, 0.25, 0.5, 0.75, 1),
-"transitions": PackedFloat32Array(1, 0.554785, 0.63728, 0.435275, 3.13834),
+"times": PackedFloat32Array(0, 0.233333, 0.5, 0.733333, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [0, 1, 2, 3, 0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Canon:visible")
+tracks/1/path = NodePath("Sprite2D/Canon:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.25),
+"times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -68,24 +64,39 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_swe08"]
 _data = {
-"RESET": SubResource("Animation_shc85"),
+"RESET": SubResource("Animation_xcnh4"),
 "fire": SubResource("Animation_qmt1s")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_66b52"]
+radius = 28.0
+height = 56.0
+
 [node name="Player" type="Area2D"]
 script = ExtResource("1_f58gm")
-
-[node name="Canon" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.5, 0.5)
-texture = SubResource("AtlasTexture_ry7ku")
-hframes = 4
+bullet_scene = ExtResource("2_jds8m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_juv2u")
 hframes = 4
-vframes = 4
+
+[node name="Canon" type="Sprite2D" parent="Sprite2D"]
+visible = false
+show_behind_parent = true
+texture = SubResource("AtlasTexture_ry7ku")
+hframes = 4
+
+[node name="BulletSpawnLocation" type="Marker2D" parent="Sprite2D"]
+position = Vector2(42, 0)
+scale = Vector2(2, 2)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_swe08")
+}
+speed_scale = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)
@@ -94,10 +105,5 @@ shape = SubResource("CapsuleShape2D_66b52")
 [node name="RayCast2D" type="RayCast2D" parent="."]
 hit_from_inside = true
 collide_with_areas = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_swe08")
-}
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

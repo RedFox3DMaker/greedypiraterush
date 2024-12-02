@@ -15,6 +15,8 @@ var streams = {
 	"coins": load("res://assets/musics/bag-of-coins-100423_short.mp3"),
 	"win": load("res://assets/musics/level-win-6416.mp3"),
 	"fail": load("res://assets/musics/level-failed-80951.mp3"),
+	"explosion": load("res://assets/musics/explosion-91872.mp3"),
+	"splash": load("res://assets/musics/water-splash-46402.mp3"),
 }
 
 func _ready() -> void:

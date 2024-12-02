@@ -29,8 +29,10 @@ tile_set = ExtResource("1_qb8ex")
 y_sort_origin = 2
 
 [node name="TopWall" type="CollisionShape2D" parent="."]
+z_index = 1
 position = Vector2(320, -4)
 shape = SubResource("RectangleShape2D_5ssu8")
+one_way_collision_margin = 20.0
 
 [node name="DownWall" type="CollisionShape2D" parent="."]
 position = Vector2(320, 644)

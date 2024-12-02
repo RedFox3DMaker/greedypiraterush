@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b85oycvx061u2"]
+[gd_scene load_steps=19 format=3 uid="uid://b85oycvx061u2"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_jed3g"]
 [ext_resource type="LabelSettings" uid="uid://cx50yfbdnme4d" path="res://assets/fonts/label_settings.tres" id="1_sqe0k"]
@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://brq7qivaytl11" path="res://assets/ux/keyboard_arrow_right.png" id="11_6p4a6"]
 [ext_resource type="Texture2D" uid="uid://ijtkux1bi1pe" path="res://assets/ux/keyboard_l.png" id="12_jn3m5"]
 [ext_resource type="Texture2D" uid="uid://bvk7yhr30i50d" path="res://assets/ux/keyboard_r.png" id="13_1xlo2"]
+[ext_resource type="Texture2D" uid="uid://b11m1h8624r4a" path="res://assets/ux/keyboard_k.png" id="14_eo2lo"]
+[ext_resource type="Texture2D" uid="uid://kute3bw0a2kg" path="res://assets/ux/keyboard_f.png" id="15_bgm30"]
 
 [sub_resource type="Gradient" id="Gradient_3s4sx"]
 offsets = PackedFloat32Array(0.776256, 0.890411, 1)
@@ -197,21 +199,39 @@ layout_mode = 2
 text = "Reward"
 label_settings = ExtResource("3_ltn62")
 
+[node name="KKey" type="TextureRect" parent="Controls/ControlsList"]
+layout_mode = 2
+texture = ExtResource("14_eo2lo")
+
+[node name="Separator6" type="Label" parent="Controls/ControlsList"]
+layout_mode = 2
+text = "/"
+label_settings = ExtResource("3_ltn62")
+
+[node name="FKey" type="TextureRect" parent="Controls/ControlsList"]
+layout_mode = 2
+texture = ExtResource("15_bgm30")
+
+[node name="ShootLabel" type="Label" parent="Controls/ControlsList"]
+layout_mode = 2
+text = "Shoot"
+label_settings = ExtResource("3_ltn62")
+
 [node name="LayoutLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 856.0
-offset_top = 425.0
+offset_top = 493.0
 offset_right = 1048.0
-offset_bottom = 470.0
+offset_bottom = 538.0
 text = "Layout"
 label_settings = ExtResource("1_sqe0k")
 
 [node name="LayoutPref" type="OptionButton" parent="."]
 layout_mode = 0
 offset_left = 864.0
-offset_top = 488.0
+offset_top = 556.0
 offset_right = 1056.0
-offset_bottom = 528.0
+offset_bottom = 596.0
 theme_override_fonts/font = ExtResource("3_jlell")
 theme_override_font_sizes/font_size = 20
 selected = 0

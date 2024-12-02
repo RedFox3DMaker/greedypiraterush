@@ -18,7 +18,7 @@ signal has_won
 signal ask_for_reward
 
 @export var animation_speed: int = 3
-
+@export var bullet_scene: PackedScene
 
 func stop() -> void:
 	allow_move = false
@@ -41,12 +41,17 @@ func _ready() -> void:
 
 
 @onready var sprite = $Sprite2D
-var dir_index = {"down": 0, "right": 1, "up": 2, "left": 3}
+var dir_rotation = {"down": 0, "right": -PI/2, "up": PI, "left": PI/2}
 func update_animation(dir: String) -> void:
+	# update the frame to match the status
 	if status_index < len(statuses):
-		sprite.frame = 4*status_index + dir_index[dir]
+		sprite.frame = status_index
 	else:
 		is_dead.emit()
+		
+	# update the rotation to match the direction
+	assert(dir in dir_rotation)
+	sprite.rotation = dir_rotation[dir]
 
 
 @onready var ray = $RayCast2D
@@ -68,6 +73,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if !allow_move: return 
 	if event.is_action_pressed("pick_reward"):
 		ask_for_reward.emit()
+	if event.is_action_pressed("shoot"):
+		shoot()
 		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -92,7 +99,8 @@ func _on_body_entered(body: Node2D) -> void:
 	var tilemap = body as TileMapLayer
 	if !tilemap: return
 		
-	var tile_collider_rid = $RayCast2D.get_collider_rid()
+	var tile_collider_rid: RID = $RayCast2D.get_collider_rid()
+	if !tile_collider_rid.is_valid(): return
 	var tile_coords = tilemap.get_coords_for_body_rid(tile_collider_rid)
 	var tile_data = tilemap.get_cell_tile_data(tile_coords)
 	if !tile_data: return
@@ -100,3 +108,11 @@ func _on_body_entered(body: Node2D) -> void:
 	var custom_data = tile_data.get_custom_data("victory")
 	if custom_data:
 		has_won.emit()
+		
+		
+func shoot():
+	$Sprite2D/AnimationPlayer.play("fire")
+	AudioManager.play("explosion")
+	var bullet = bullet_scene.instantiate()
+	owner.add_child(bullet)
+	bullet.transform = $Sprite2D/BulletSpawnLocation.global_transform
