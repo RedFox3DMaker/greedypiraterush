@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b85oycvx061u2"]
+[gd_scene load_steps=19 format=3 uid="uid://b85oycvx061u2"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_jed3g"]
 [ext_resource type="LabelSettings" uid="uid://cx50yfbdnme4d" path="res://assets/fonts/label_settings.tres" id="1_sqe0k"]
@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://brq7qivaytl11" path="res://assets/ux/keyboard_arrow_right.png" id="11_6p4a6"]
 [ext_resource type="Texture2D" uid="uid://ijtkux1bi1pe" path="res://assets/ux/keyboard_l.png" id="12_jn3m5"]
 [ext_resource type="Texture2D" uid="uid://bvk7yhr30i50d" path="res://assets/ux/keyboard_r.png" id="13_1xlo2"]
+[ext_resource type="Texture2D" uid="uid://b11m1h8624r4a" path="res://assets/ux/keyboard_k.png" id="14_eo2lo"]
+[ext_resource type="Texture2D" uid="uid://kute3bw0a2kg" path="res://assets/ux/keyboard_f.png" id="15_bgm30"]
 
 [sub_resource type="Gradient" id="Gradient_3s4sx"]
 offsets = PackedFloat32Array(0.776256, 0.890411, 1)
@@ -22,27 +24,6 @@ colors = PackedColorArray(0.960784, 0.72549, 0.443137, 1, 0.960784, 0.576471, 0.
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_yg7k3"]
 gradient = SubResource("Gradient_3s4sx")
 fill_to = Vector2(1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dydo0"]
-bg_color = Color(0.843137, 0.305882, 0.309804, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_color = Color(0.117241, 0.465332, 0.609044, 1)
-shadow_size = 1
-shadow_offset = Vector2(1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fercx"]
-bg_color = Color(0.999965, 0.53737, 0.507192, 1)
-shadow_color = Color(0.117241, 0.465332, 0.609044, 1)
-
-[sub_resource type="Theme" id="Theme_ol5ed"]
-Button/colors/font_color = Color(0.856067, 0.856067, 0.856067, 1)
-Button/font_sizes/font_size = 24
-Button/fonts/font = ExtResource("3_jlell")
-Button/styles/normal = SubResource("StyleBoxFlat_dydo0")
-Button/styles/pressed = SubResource("StyleBoxFlat_fercx")
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -104,17 +85,6 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="Bombs/BombsIcons"]
 layout_mode = 2
-
-[node name="RestartButton" type="Button" parent="."]
-layout_mode = 2
-offset_left = 8.0
-offset_top = 666.0
-offset_right = 180.0
-offset_bottom = 703.0
-theme = SubResource("Theme_ol5ed")
-button_mask = 5
-text = "Restart"
-autowrap_mode = 3
 
 [node name="Gamezone" type="ReferenceRect" parent="."]
 layout_mode = 0
@@ -229,21 +199,39 @@ layout_mode = 2
 text = "Reward"
 label_settings = ExtResource("3_ltn62")
 
+[node name="KKey" type="TextureRect" parent="Controls/ControlsList"]
+layout_mode = 2
+texture = ExtResource("14_eo2lo")
+
+[node name="Separator6" type="Label" parent="Controls/ControlsList"]
+layout_mode = 2
+text = "/"
+label_settings = ExtResource("3_ltn62")
+
+[node name="FKey" type="TextureRect" parent="Controls/ControlsList"]
+layout_mode = 2
+texture = ExtResource("15_bgm30")
+
+[node name="ShootLabel" type="Label" parent="Controls/ControlsList"]
+layout_mode = 2
+text = "Shoot"
+label_settings = ExtResource("3_ltn62")
+
 [node name="LayoutLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 856.0
-offset_top = 425.0
+offset_top = 493.0
 offset_right = 1048.0
-offset_bottom = 470.0
+offset_bottom = 538.0
 text = "Layout"
 label_settings = ExtResource("1_sqe0k")
 
 [node name="LayoutPref" type="OptionButton" parent="."]
 layout_mode = 0
 offset_left = 864.0
-offset_top = 488.0
+offset_top = 556.0
 offset_right = 1056.0
-offset_bottom = 528.0
+offset_bottom = 596.0
 theme_override_fonts/font = ExtResource("3_jlell")
 theme_override_font_sizes/font_size = 20
 selected = 0
@@ -252,5 +240,4 @@ popup/item_0/text = "AZERTY"
 popup/item_1/text = "QWERTY"
 popup/item_1/id = 1
 
-[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="item_selected" from="LayoutPref" to="." method="_on_layout_pref_item_selected"]

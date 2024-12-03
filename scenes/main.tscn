@@ -12,9 +12,7 @@ script = ExtResource("1_0k57n")
 
 [node name="Level1" parent="." instance=ExtResource("2_esssv")]
 position = Vector2(200, 40)
-
-[node name="PlayerInitialPosition" type="Marker2D" parent="."]
-position = Vector2(355, 322)
+nb_treasures = 10
 
 [node name="Player" parent="." instance=ExtResource("3_c20tf")]
 position = Vector2(355, 322)
@@ -41,5 +39,5 @@ offset_bottom = 39.0
 [connection signal="is_dead" from="Player" to="EndScreen" method="_on_player_is_dead"]
 [connection signal="status_changed" from="Timer" to="Player" method="_on_timer_status_changed"]
 [connection signal="timeout" from="Timer" to="EndScreen" method="_on_timer_timeout"]
-[connection signal="restart" from="HUD" to="." method="_on_hud_restart"]
 [connection signal="endgame" from="EndScreen" to="." method="_on_end_screen_endgame"]
+[connection signal="restart" from="EndScreen" to="." method="_on_end_screen_restart"]

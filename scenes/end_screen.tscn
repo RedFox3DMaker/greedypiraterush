@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxkjpndvcy7di"]
+[gd_scene load_steps=11 format=3 uid="uid://dxkjpndvcy7di"]
 
 [ext_resource type="LabelSettings" uid="uid://cx50yfbdnme4d" path="res://assets/fonts/label_settings.tres" id="1_eh4s1"]
 [ext_resource type="Script" path="res://scripts/end_screen.gd" id="1_iqgv5"]
+[ext_resource type="FontFile" uid="uid://wdjka75qe0dk" path="res://assets/fonts/SpicyRice-Regular.ttf" id="3_8hate"]
 
 [sub_resource type="Animation" id="Animation_h6hwj"]
 length = 0.001
@@ -67,6 +68,27 @@ _data = {
 "victory": SubResource("Animation_lxc5g")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dydo0"]
+bg_color = Color(0.843137, 0.305882, 0.309804, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.117241, 0.465332, 0.609044, 1)
+shadow_size = 1
+shadow_offset = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fercx"]
+bg_color = Color(0.999965, 0.53737, 0.507192, 1)
+shadow_color = Color(0.117241, 0.465332, 0.609044, 1)
+
+[sub_resource type="Theme" id="Theme_rt3gs"]
+Button/colors/font_color = Color(0.856067, 0.856067, 0.856067, 1)
+Button/font_sizes/font_size = 24
+Button/fonts/font = ExtResource("3_8hate")
+Button/styles/normal = SubResource("StyleBoxFlat_dydo0")
+Button/styles/pressed = SubResource("StyleBoxFlat_fercx")
+
 [node name="EndScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -106,3 +128,17 @@ label_settings = ExtResource("1_eh4s1")
 libraries = {
 "": SubResource("AnimationLibrary_gkytr")
 }
+
+[node name="RestartButton" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 240.0
+offset_top = 376.0
+offset_right = 412.0
+offset_bottom = 413.0
+theme = SubResource("Theme_rt3gs")
+button_mask = 5
+text = "Restart"
+autowrap_mode = 3
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

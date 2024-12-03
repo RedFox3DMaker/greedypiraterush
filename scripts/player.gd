@@ -1,6 +1,9 @@
 extends Area2D
+class_name Player
 
-var tile_size = 64
+
+# members
+const TILE_SIZE = 64
 var inputs = {
 	"right": Vector2.RIGHT, 
 	"left": Vector2.LEFT, 
@@ -13,11 +16,23 @@ var moving = false
 var current_dir = "down"
 var allow_move = true
 
+
+# public members
+@export var animation_speed: int = 3
+@export var bullet_scene: PackedScene
+
+
+# nodes
+@onready var ray = $RayCast2D
+@onready var sprite = $Sprite2D
+@onready var animation_player: AnimationPlayer = $Sprite2D/AnimationPlayer
+@onready var bullet_spawn_location: Marker2D = $Sprite2D/BulletSpawnLocation
+
+
+# signals
 signal is_dead
 signal has_won
 signal ask_for_reward
-
-@export var animation_speed: int = 3
 
 
 func stop() -> void:
@@ -26,8 +41,8 @@ func stop() -> void:
 
 func reset(initial_pos: Vector2) -> void:
 	position = initial_pos
-	position = position.snapped(Vector2.ONE * tile_size)
-	position += Vector2.ONE * tile_size/2
+	position = position.snapped(Vector2.ONE * TILE_SIZE)
+	position += Vector2.ONE * TILE_SIZE/2
 	status_index = 0
 	current_dir = "down"
 	allow_move = true
@@ -40,33 +55,40 @@ func _ready() -> void:
 	reset(position)
 
 
-@onready var sprite = $Sprite2D
-var dir_index = {"down": 0, "right": 1, "up": 2, "left": 3}
+var dir_rotation = {"down": 0, "right": -PI/2, "up": PI, "left": PI/2}
 func update_animation(dir: String) -> void:
+	# update the frame to match the status
 	if status_index < len(statuses):
-		sprite.frame = 4*status_index + dir_index[dir]
+		sprite.frame = status_index
 	else:
 		is_dead.emit()
+		
+	# update the rotation to match the direction
+	assert(dir in dir_rotation)
+	sprite.rotation = dir_rotation[dir]
 
 
-@onready var ray = $RayCast2D
 func move(dir: String) -> void:
-	ray.target_position = inputs[dir] * tile_size
+	ray.target_position = inputs[dir] * TILE_SIZE
 	ray.force_raycast_update()
 	if !ray.is_colliding():
 		var tween = create_tween()
 		tween.tween_property(self, "position", 
-			position + inputs[dir] * tile_size, 
+			position + inputs[dir] * TILE_SIZE, 
 			1.0/animation_speed).set_trans(Tween.TRANS_LINEAR)
 		moving = true
+		AudioManager.play("sailing")
 		await tween.finished
 		moving = false
+		
 		
 func _unhandled_input(event: InputEvent) -> void:
 	if !allow_move: return 
 	if event.is_action_pressed("pick_reward"):
 		ask_for_reward.emit()
-
+	if event.is_action_pressed("shoot"):
+		shoot()
+		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
@@ -90,7 +112,8 @@ func _on_body_entered(body: Node2D) -> void:
 	var tilemap = body as TileMapLayer
 	if !tilemap: return
 		
-	var tile_collider_rid = $RayCast2D.get_collider_rid()
+	var tile_collider_rid: RID = ray.get_collider_rid()
+	if !tile_collider_rid.is_valid(): return
 	var tile_coords = tilemap.get_coords_for_body_rid(tile_collider_rid)
 	var tile_data = tilemap.get_cell_tile_data(tile_coords)
 	if !tile_data: return
@@ -98,3 +121,11 @@ func _on_body_entered(body: Node2D) -> void:
 	var custom_data = tile_data.get_custom_data("victory")
 	if custom_data:
 		has_won.emit()
+		
+		
+func shoot():
+	animation_player.play("fire")
+	AudioManager.play("explosion")
+	var bullet = bullet_scene.instantiate()
+	owner.add_child(bullet)
+	bullet.transform = bullet_spawn_location.global_transform
