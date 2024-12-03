@@ -1,7 +1,13 @@
 extends Area2D
+class_name Bullet
 
 
+# members
 var speed: int = 250
+
+
+# nodes
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -18,7 +24,7 @@ func _on_body_entered(body: Node2D) -> void:
 func _on_timer_timeout() -> void:
 	speed = 0
 	AudioManager.play("splash")
-	$AnimationPlayer.play("splash")
-	await $AnimationPlayer.animation_finished
+	animation_player.play("splash")
+	await animation_player.animation_finished
 	queue_free()
 	

@@ -2,11 +2,16 @@ extends Control
 class_name EndScreen
 
 
+# nodes
+@onready var restart_button: Button = $RestartButton
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
+
+
+# signals
 signal endgame(gameover: bool)
 signal restart
 
-@onready var restart_button: Button = $RestartButton
-@onready var anim_player: AnimationPlayer = $AnimationPlayer
+
 func reset() -> void:
 	anim_player.stop()
 	visible = false

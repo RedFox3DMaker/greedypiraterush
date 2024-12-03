@@ -1,10 +1,15 @@
 extends Area2D
 class_name Treasure
 
+
+# members
 var reward: int = 0
 const MAX_REWARD = 1499
 
+
+# signals
 signal gained(reward: int)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

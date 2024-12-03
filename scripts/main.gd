@@ -1,5 +1,7 @@
 extends Node2D
 
+
+# nodes
 @onready var player: Player = $Player
 @onready var level1: PirateWorld = $Level1
 @onready var timer: Timer = $Timer

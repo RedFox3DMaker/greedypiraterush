@@ -1,6 +1,8 @@
 extends Area2D
 class_name Player
 
+
+# members
 const TILE_SIZE = 64
 var inputs = {
 	"right": Vector2.RIGHT, 
@@ -14,12 +16,24 @@ var moving = false
 var current_dir = "down"
 var allow_move = true
 
+
+# public members
+@export var animation_speed: int = 3
+@export var bullet_scene: PackedScene
+
+
+# nodes
+@onready var ray = $RayCast2D
+@onready var sprite = $Sprite2D
+@onready var animation_player: AnimationPlayer = $Sprite2D/AnimationPlayer
+@onready var bullet_spawn_location: Marker2D = $Sprite2D/BulletSpawnLocation
+
+
+# signals
 signal is_dead
 signal has_won
 signal ask_for_reward
 
-@export var animation_speed: int = 3
-@export var bullet_scene: PackedScene
 
 func stop() -> void:
 	allow_move = false
@@ -41,7 +55,6 @@ func _ready() -> void:
 	reset(position)
 
 
-@onready var sprite = $Sprite2D
 var dir_rotation = {"down": 0, "right": -PI/2, "up": PI, "left": PI/2}
 func update_animation(dir: String) -> void:
 	# update the frame to match the status
@@ -55,7 +68,6 @@ func update_animation(dir: String) -> void:
 	sprite.rotation = dir_rotation[dir]
 
 
-@onready var ray = $RayCast2D
 func move(dir: String) -> void:
 	ray.target_position = inputs[dir] * TILE_SIZE
 	ray.force_raycast_update()
@@ -112,8 +124,8 @@ func _on_body_entered(body: Node2D) -> void:
 		
 		
 func shoot():
-	$Sprite2D/AnimationPlayer.play("fire")
+	animation_player.play("fire")
 	AudioManager.play("explosion")
 	var bullet = bullet_scene.instantiate()
 	owner.add_child(bullet)
-	bullet.transform = $Sprite2D/BulletSpawnLocation.global_transform
+	bullet.transform = bullet_spawn_location.global_transform

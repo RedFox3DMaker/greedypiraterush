@@ -1,20 +1,26 @@
 extends Area2D
 class_name PirateWorld
 
+
+# members
 const TILE_SIZE = 64
 const NB_HORIZONTAL_TILES = 10
 const NB_VERTICAL_TILES = 10
+# keep a list of cells occupied by sand, rocks, enemies and player
+var forbidden_cells: Array[Vector2i]
+var treasures: Array = []
 
+
+# public members
 @export var treasure_scene: PackedScene
 @export var nb_treasures: int = 15
 
+
+# nodes
 @onready var sea_layer: TileMapLayer = $SeaLayer
 @onready var sand_layer: TileMapLayer = $SandLayer
 @onready var player_initial_position: Marker2D = $PlayerInitialPosition
 
-# keep a list of cells occupied by sand, rocks, enemies and player
-var forbidden_cells: Array[Vector2i]
-var treasures: Array = []
 
 func get_player_initial_position():
 	return player_initial_position.position
