@@ -1,71 +1,58 @@
 extends Node2D
 
-var rewards = []
-func init_rewards() -> void:
-	rewards.clear()
-	var idx = 0
-	while idx < 15:
-		rewards.append(randi() % 1499 + 1)
-		idx += 1
+@onready var player: Player = $Player
+@onready var level1: PirateWorld = $Level1
+@onready var timer: Timer = $Timer
+@onready var hud: HUD = $HUD
+@onready var end_screen: EndScreen = $EndScreen
 
-var tiles_already_searched = []
-func get_player_current_tile() -> Vector2i:
-	# the player can ask for a reward once on each tile so keep track of where 
-	# the requests have been made
-	var tile_size = $Player.tile_size
-	var player_pos = $Player.position - Vector2.ONE * tile_size / 2
-	var level_origin = $Level1.position
-	var player_pos_on_level = player_pos - level_origin
-	return Vector2i(player_pos_on_level / tile_size)
+
+func init() -> void:
+	# create the treasures and connect their signals
+	level1.init_rewards()
+	for treasure: Treasure in get_tree().get_nodes_in_group("treasures"):
+		treasure.gained.connect(_on_reward_gained)
+	AudioManager.play("ambiant")
 
 
 func _ready() -> void:
-	init_rewards()
-	AudioManager.play("ambiant")
-	
-	
+	init()
+
+
 func _on_end_screen_restart() -> void:
 	# reset the end screen
-	$EndScreen.reset()
+	end_screen.reset()
 	
 	# reset the score
-	$HUD.reset_score()
+	hud.reset_score()
 	
 	# put the player back to its initial position
-	$Player.reset($PlayerInitialPosition.position) 
+	player.reset(level1.get_player_initial_position()) 
 	
-	# refill the rewards
-	init_rewards()
+	# remove remaining reward and create new ones
+	for treasure: Treasure in get_tree().get_nodes_in_group("treasures"):
+		treasure.queue_free()
 	AudioManager.stop_all()
-	AudioManager.play("ambiant")
+	init()
 	
 	# reset and restart the timer
-	$Timer.reset()
+	timer.reset()
 
 
 func _on_end_screen_endgame(gameover: bool) -> void:
 	AudioManager.stop("ambiant")
 	if gameover:
-		$Player.hide()
+		player.hide()
 		AudioManager.play("fail")
 	else:
 		AudioManager.play("win")
 		
-	$Timer.stop()
-	$Player.stop()
+	timer.stop()
+	player.stop()
 
 
-func _on_player_ask_for_reward() -> void:
+func _on_reward_gained(reward: int) -> void:
 	# during the play time, if the reward is granted, 
-	# take it from the rewards bag
-	if (!$Timer.is_stopped() or !$Timer.is_paused()) and len(rewards) > 0:
-		# check the tile
-		var tile_coords = get_player_current_tile()
-		if tile_coords in tiles_already_searched: return
-		tiles_already_searched.append(tile_coords)
-					
-		var grant_reward = randi() % 2 as bool
-		if !grant_reward: return
-		
-		$HUD.add_to_score(rewards.pop_back())
-		AudioManager.play("coins")
+	# update the score
+	if !timer.is_stopped() or !timer.is_paused():
+		hud.add_to_score(reward)

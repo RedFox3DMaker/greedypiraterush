@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=4 uid="uid://f0v4iu8kbwpr"]
+[gd_scene load_steps=6 format=4 uid="uid://f0v4iu8kbwpr"]
 
+[ext_resource type="Script" path="res://scripts/pirate_world.gd" id="1_l8auc"]
 [ext_resource type="TileSet" uid="uid://mkie2ri34upw" path="res://assets/maps/pirate_world.tres" id="1_qb8ex"]
+[ext_resource type="PackedScene" uid="uid://ddiisj2bwo24d" path="res://scenes/treasure.tscn" id="2_v8jmh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ssu8"]
 size = Vector2(656, 8)
@@ -9,6 +11,8 @@ size = Vector2(656, 8)
 size = Vector2(8, 640)
 
 [node name="Level" type="Area2D"]
+script = ExtResource("1_l8auc")
+treasure_scene = ExtResource("2_v8jmh")
 
 [node name="SeaLayer" type="TileMapLayer" parent="."]
 position = Vector2(-64, -64)
@@ -45,3 +49,6 @@ shape = SubResource("RectangleShape2D_0nko1")
 [node name="RightWall" type="CollisionShape2D" parent="."]
 position = Vector2(644, 320)
 shape = SubResource("RectangleShape2D_0nko1")
+
+[node name="PlayerInitialPosition" type="Marker2D" parent="."]
+position = Vector2(160, 288)

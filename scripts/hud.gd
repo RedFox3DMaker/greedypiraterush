@@ -1,5 +1,5 @@
 extends Control
-
+class_name HUD
 
 var score = 0
 

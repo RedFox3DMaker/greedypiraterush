@@ -1,4 +1,6 @@
 extends Control
+class_name EndScreen
+
 
 signal endgame(gameover: bool)
 signal restart

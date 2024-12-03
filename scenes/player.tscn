@@ -72,7 +72,7 @@ _data = {
 radius = 28.0
 height = 56.0
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="Area2D" groups=["player"]]
 script = ExtResource("1_f58gm")
 bullet_scene = ExtResource("2_jds8m")
 

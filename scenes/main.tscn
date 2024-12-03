@@ -12,9 +12,7 @@ script = ExtResource("1_0k57n")
 
 [node name="Level1" parent="." instance=ExtResource("2_esssv")]
 position = Vector2(200, 40)
-
-[node name="PlayerInitialPosition" type="Marker2D" parent="."]
-position = Vector2(355, 322)
+nb_treasures = 10
 
 [node name="Player" parent="." instance=ExtResource("3_c20tf")]
 position = Vector2(355, 322)

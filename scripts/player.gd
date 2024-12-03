@@ -1,6 +1,7 @@
 extends Area2D
+class_name Player
 
-var tile_size = 64
+const TILE_SIZE = 64
 var inputs = {
 	"right": Vector2.RIGHT, 
 	"left": Vector2.LEFT, 
@@ -26,8 +27,8 @@ func stop() -> void:
 
 func reset(initial_pos: Vector2) -> void:
 	position = initial_pos
-	position = position.snapped(Vector2.ONE * tile_size)
-	position += Vector2.ONE * tile_size/2
+	position = position.snapped(Vector2.ONE * TILE_SIZE)
+	position += Vector2.ONE * TILE_SIZE/2
 	status_index = 0
 	current_dir = "down"
 	allow_move = true
@@ -56,12 +57,12 @@ func update_animation(dir: String) -> void:
 
 @onready var ray = $RayCast2D
 func move(dir: String) -> void:
-	ray.target_position = inputs[dir] * tile_size
+	ray.target_position = inputs[dir] * TILE_SIZE
 	ray.force_raycast_update()
 	if !ray.is_colliding():
 		var tween = create_tween()
 		tween.tween_property(self, "position", 
-			position + inputs[dir] * tile_size, 
+			position + inputs[dir] * TILE_SIZE, 
 			1.0/animation_speed).set_trans(Tween.TRANS_LINEAR)
 		moving = true
 		AudioManager.play("sailing")
@@ -99,7 +100,7 @@ func _on_body_entered(body: Node2D) -> void:
 	var tilemap = body as TileMapLayer
 	if !tilemap: return
 		
-	var tile_collider_rid: RID = $RayCast2D.get_collider_rid()
+	var tile_collider_rid: RID = ray.get_collider_rid()
 	if !tile_collider_rid.is_valid(): return
 	var tile_coords = tilemap.get_coords_for_body_rid(tile_collider_rid)
 	var tile_data = tilemap.get_cell_tile_data(tile_coords)
