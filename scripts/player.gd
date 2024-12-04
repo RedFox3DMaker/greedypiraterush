@@ -40,8 +40,7 @@ func stop() -> void:
 
 
 func reset(initial_pos: Vector2) -> void:
-	position = initial_pos
-	position = position.snapped(Vector2.ONE * TILE_SIZE)
+	position = initial_pos.snapped(Vector2.ONE * TILE_SIZE)
 	position += Vector2.ONE * TILE_SIZE/2
 	status_index = 0
 	current_dir = "down"
