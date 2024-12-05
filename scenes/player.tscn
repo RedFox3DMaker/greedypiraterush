@@ -69,8 +69,8 @@ _data = {
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_66b52"]
-radius = 28.0
-height = 56.0
+radius = 13.0
+height = 58.0
 
 [node name="Player" type="Area2D" groups=["player"]]
 script = ExtResource("1_f58gm")

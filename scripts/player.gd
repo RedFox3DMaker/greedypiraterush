@@ -32,7 +32,6 @@ var allow_move = true
 # signals
 signal is_dead
 signal has_won
-signal ask_for_reward
 
 
 func stop() -> void:

@@ -25,6 +25,8 @@ const FORBIDDEN_CELLS: Array[Vector2i] = [
 	Vector2i(10,10),
 	Vector2i(3,5),
 	]
+const CELL_SIZE: Vector2i = Vector2i.ONE * TILE_SIZE
+var astar_grid = AStarGrid2D.new()
 
 # public members
 @export var treasure_scene: PackedScene
@@ -35,10 +37,15 @@ const FORBIDDEN_CELLS: Array[Vector2i] = [
 @onready var sea_layer: TileMapLayer = $SeaLayer
 @onready var sand_layer: TileMapLayer = $SandLayer
 @onready var player_initial_position: Marker2D = $PlayerInitialPosition
+@onready var ennemy_initial_position: Marker2D = $EnnemyInitialPosition
 
 
 func get_player_initial_position():
 	return sea_layer.to_global(player_initial_position.position)
+	
+	
+func get_ennemy_initial_position():
+	return sea_layer.to_global(ennemy_initial_position.position)
 	
 
 func init_rewards() -> Array[Node]:
@@ -74,3 +81,27 @@ func clean_treasures() -> void:
 		treasure.remove_from_group("treasures")
 		remove_child(treasure)
 		treasure.queue_free()
+		
+		
+func _ready() -> void:
+	initialize_astar()
+	
+
+func initialize_astar():
+	astar_grid.region = Rect2i(0, 0, NB_HORIZONTAL_TILES+1, NB_VERTICAL_TILES+1)
+	astar_grid.cell_size = CELL_SIZE
+	astar_grid.offset = CELL_SIZE / 2
+	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	astar_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+	astar_grid.update()
+	for cell in sand_layer.get_used_cells():
+		astar_grid.set_point_solid(cell - Vector2i.ONE)
+	
+	
+func compute_astar_path(start: Vector2i, end: Vector2i) -> PackedVector2Array:
+	return PackedVector2Array(astar_grid.get_point_path(start, end))
+	
+	
+func convert_position(glob_position: Vector2) -> Vector2i:
+	var local_position = sea_layer.to_local(glob_position)
+	return sea_layer.local_to_map(local_position) - Vector2i.ONE

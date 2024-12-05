@@ -3,6 +3,7 @@ extends Node2D
 
 # nodes
 @onready var player: Player = $Player
+@onready var ennemy: Ennemy = $Ennemy
 @onready var level1: PirateWorld = $Level1
 @onready var timer: Timer = $Timer
 @onready var hud: HUD = $HUD
@@ -17,6 +18,7 @@ func init() -> void:
 	
 	# set the player at the right position
 	player.reset(level1.get_player_initial_position())
+	ennemy.reset(level1.get_ennemy_initial_position())
 	
 	# start the music
 	AudioManager.play("ambiant")
@@ -59,3 +61,13 @@ func _on_reward_gained(reward: int) -> void:
 	# update the score
 	if !timer.is_stopped() or !timer.is_paused():
 		hud.add_to_score(reward)
+		
+
+var end = Vector2i(5,5)
+var moving = false
+func _process(_delta: float) -> void:
+	var ennemy_map_position = level1.convert_position(ennemy.position)
+	if ennemy_map_position != end and not moving:
+		moving = true
+		var points = level1.compute_astar_path(ennemy_map_position, end)
+		ennemy.set_path_2d(points)
