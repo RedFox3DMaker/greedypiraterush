@@ -83,8 +83,6 @@ func move(dir: String) -> void:
 		
 func _unhandled_input(event: InputEvent) -> void:
 	if !allow_move: return 
-	if event.is_action_pressed("pick_reward"):
-		ask_for_reward.emit()
 	if event.is_action_pressed("shoot"):
 		shoot()
 		
