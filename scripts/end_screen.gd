@@ -4,6 +4,7 @@ class_name EndScreen
 
 # nodes
 @onready var restart_button: Button = $RestartButton
+@onready var exit_button: Button = $ExitButton
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 
 
@@ -39,7 +40,12 @@ func _on_player_has_won() -> void:
 	await anim_player.animation_finished
 	endgame.emit(false)
 	restart_button.show()
+	exit_button.show()
 	
 
 func _on_restart_button_pressed() -> void:
 	restart.emit()
+
+
+func _on_exit_button_pressed() -> void:
+	get_tree().quit()
