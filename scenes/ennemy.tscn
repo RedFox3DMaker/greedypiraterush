@@ -3,29 +3,27 @@
 [ext_resource type="Texture2D" uid="uid://b5hyy3wxqk32c" path="res://assets/sprites/Ennemy1.png" id="1_ccf0g"]
 [ext_resource type="Script" path="res://scripts/ennemy.gd" id="1_swcnd"]
 
+[sub_resource type="Curve2D" id="Curve2D_aq83s"]
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_per4x"]
 radius = 12.0
-height = 54.0
+height = 56.0
 
-[sub_resource type="Curve2D" id="Curve2D_78scx"]
-
-[node name="Ennemy" type="Area2D"]
+[node name="Ennemy" type="Path2D"]
+curve = SubResource("Curve2D_aq83s")
 script = ExtResource("1_swcnd")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_per4x")
-
-[node name="Path2D" type="Path2D" parent="."]
-curve = SubResource("Curve2D_78scx")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
 cubic_interp = false
 loop = false
 
-[node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D"]
+[node name="Area2D" type="Area2D" parent="PathFollow2D"]
+rotation = -1.5708
+
+[node name="Sprite2D" type="Sprite2D" parent="PathFollow2D/Area2D"]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_ccf0g")
 hframes = 4
 
-[node name="Line2DDebug" type="Line2D" parent="."]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Area2D"]
+shape = SubResource("CapsuleShape2D_per4x")

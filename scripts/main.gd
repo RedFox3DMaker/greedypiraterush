@@ -66,7 +66,7 @@ func _on_reward_gained(reward: int) -> void:
 var end = Vector2i(5,5)
 var moving = false
 func _process(_delta: float) -> void:
-	var ennemy_map_position = level1.convert_position(ennemy.position)
+	var ennemy_map_position = level1.convert_position(ennemy.global_position)
 	if ennemy_map_position != end and not moving:
 		moving = true
 		var points = level1.compute_astar_path(ennemy_map_position, end)
