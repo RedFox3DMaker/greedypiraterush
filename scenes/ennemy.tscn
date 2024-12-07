@@ -6,7 +6,7 @@
 [sub_resource type="Curve2D" id="Curve2D_aq83s"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_per4x"]
-radius = 12.0
+radius = 18.0
 height = 56.0
 
 [node name="Ennemy" type="Path2D"]

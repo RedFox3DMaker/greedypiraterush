@@ -26,4 +26,5 @@ func _on_area_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		gained.emit(reward)
 	AudioManager.play("coins")
+	remove_from_group("treasures")
 	queue_free()

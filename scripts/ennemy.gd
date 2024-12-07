@@ -7,6 +7,8 @@ var tile_size: int
 var cell_size: Vector2i
 var pirate_world: PirateWorld
 var astar_grid = AStarGrid2D.new()
+var target_treasure: Treasure
+
 
 # public member
 @export var speed: int = 100
@@ -24,7 +26,7 @@ func set_pirate_world(world: PirateWorld) -> void:
 
 func reset(initial_glob_pos: Vector2) -> void:
 	global_position = initial_glob_pos.snapped(cell_size)
-	path_follow.progress = 0
+	path_follow.progress_ratio = 0
 	
 	
 func initialize_astar():
@@ -50,11 +52,39 @@ func compute_astar_path(end: Vector2i) -> void:
 	
 	for point in astar_grid.get_point_path(self_map_position, end):
 		curve.add_point(pirate_world.to_global(point) - global_position)
+		
+
+func choose_target() -> Vector2i:
+	# get the list of treasures
+	var treasures: Array[Node] = get_tree().get_nodes_in_group("treasures")
+	# search the closest treasure
+	var min_distance = INF
+	var target_pos: Vector2i = Vector2i.ZERO
+	for treasure in treasures:
+		var distance = global_position.distance_to(treasure.global_position)
+		if distance < min_distance:
+			min_distance = distance 
+			target_pos = pirate_world.convert_position(treasure.global_position) - Vector2i.ONE
+			target_treasure = treasure
 	
+	return target_pos
 	
-var target = Vector2i(7,6)
 func _process(delta: float) -> void:
+	# stop if no more treasures
+	var treasures = get_tree().get_nodes_in_group("treasures")
+	if treasures.size() == 0:
+		return 
+	
+	# check target validity
+	var treasure_valid = is_instance_valid(target_treasure) and target_treasure in treasures
+	
 	if path_follow.progress_ratio == 0:
+		var target = choose_target()
 		compute_astar_path(target)
-	if path_follow.progress_ratio < 1:
+	elif not treasure_valid or path_follow.progress_ratio == 1:
+		reset(global_position + curve.get_point_position(curve.point_count - 1))
+		return
+		
+	# check if the treasure is still valid and the ship is moving towards it
+	if target_treasure in treasures and path_follow.progress_ratio < 1:
 		path_follow.progress += speed * delta
