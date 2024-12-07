@@ -25,8 +25,7 @@ const FORBIDDEN_CELLS: Array[Vector2i] = [
 	Vector2i(10,10),
 	Vector2i(3,5),
 	]
-const CELL_SIZE: Vector2i = Vector2i.ONE * TILE_SIZE
-var astar_grid = AStarGrid2D.new()
+
 
 # public members
 @export var treasure_scene: PackedScene
@@ -80,29 +79,7 @@ func clean_treasures() -> void:
 	for treasure: Treasure in get_tree().get_nodes_in_group("treasures"):
 		treasure.remove_from_group("treasures")
 		remove_child(treasure)
-		treasure.queue_free()
-		
-		
-func _ready() -> void:
-	initialize_astar()
-	
-
-func initialize_astar():
-	astar_grid.region = Rect2i(0, 0, NB_HORIZONTAL_TILES+1, NB_VERTICAL_TILES+1)
-	astar_grid.cell_size = CELL_SIZE
-	astar_grid.offset = CELL_SIZE / 2
-	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
-	astar_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
-	astar_grid.update()
-	for cell in sand_layer.get_used_cells():
-		astar_grid.set_point_solid(cell - Vector2i.ONE)
-	
-	
-func compute_astar_path(start: Vector2i, end: Vector2i) -> PackedVector2Array:
-	var astar_glob_points = PackedVector2Array()
-	for point in astar_grid.get_point_path(start, end):
-		astar_glob_points.append(to_global(point))
-	return astar_glob_points
+		treasure.queue_free()	
 	
 	
 func convert_position(glob_position: Vector2) -> Vector2i:
