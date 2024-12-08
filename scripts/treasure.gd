@@ -9,8 +9,8 @@ const TILE_SIZE = 64
 
 
 # signals
-signal gained(reward: int)
-
+signal player_gained(reward: int)
+signal ennemy_gained(reward: int)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,12 +22,11 @@ func _ready() -> void:
 	# print("position: ", position)
 
 
-func _on_area_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		gained.emit(reward)
-	elif body.is_in_group("ennemy"):
-		var ennemy = body as Ennemy
-		ennemy.reward += reward
+func _on_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player"):
+		player_gained.emit(reward)
+	elif area.is_in_group("ennemy"):
+		ennemy_gained.emit(reward)
 	AudioManager.play("coins")
 	remove_from_group("treasures")
 	queue_free()

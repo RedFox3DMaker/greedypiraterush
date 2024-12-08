@@ -13,12 +13,7 @@ extends Node2D
 @onready var end_screen: EndScreen = $EndScreen
 
 
-func init() -> void:
-	# create the treasures and connect their signals
-	var treasures: Array[Node] = level1.init_rewards()
-	for treasure: Treasure in treasures:
-		treasure.gained.connect(_on_reward_gained)
-	
+func init() -> void:	
 	# set the player at the right position
 	player.reset(level1.get_player_initial_position())
 	
@@ -29,10 +24,17 @@ func init() -> void:
 		remove_child(ennemy)
 		ennemy.queue_free()
 	
-	var ennemy = ennemy_scene.instantiate()
-	add_child(ennemy)
-	ennemy.set_pirate_world(level1)
-	ennemy.reset(level1.get_ennemy_initial_position())
+	var ennemy_inst: Ennemy = ennemy_scene.instantiate()
+	ennemy_inst.set_pirate_world(level1)
+	add_child(ennemy_inst)
+	ennemy_inst.reset(level1.get_ennemy_initial_position())
+	ennemy_inst.dead.connect(level1.on_ennemy_dead)
+	
+	# create the treasures and connect their signals
+	var treasures: Array[Node] = level1.init_rewards()
+	for treasure: Treasure in treasures:
+		treasure.player_gained.connect(_on_player_reward_gained)
+		treasure.ennemy_gained.connect(ennemy_inst.on_treasure_gained)
 	
 	# start the music
 	AudioManager.play("ambiant")
@@ -73,7 +75,7 @@ func _on_end_screen_endgame(gameover: bool) -> void:
 	player.stop()
 
 
-func _on_reward_gained(reward: int) -> void:
+func _on_player_reward_gained(reward: int) -> void:
 	# during the play time, if the reward is granted, 
 	# update the score
 	if !timer.is_stopped() or !timer.is_paused():

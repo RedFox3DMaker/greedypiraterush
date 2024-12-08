@@ -85,3 +85,11 @@ func clean_treasures() -> void:
 func convert_position(glob_position: Vector2) -> Vector2i:
 	var local_position = sea_layer.to_local(glob_position)
 	return sea_layer.local_to_map(local_position)
+	
+	
+func on_ennemy_dead(reward: int, init_glob_position: Vector2) -> void:
+	# instantiate the treasure scene at the current coordinates
+	var treasure_inst = treasure_scene.instantiate()
+	treasure_inst.position = sand_layer.to_local(init_glob_position)
+	call_deferred("add_child", treasure_inst)
+	treasure_inst.reward = reward

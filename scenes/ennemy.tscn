@@ -10,7 +10,7 @@
 radius = 18.0
 height = 56.0
 
-[node name="Ennemy" type="Path2D" groups=["ennemy"]]
+[node name="Ennemy" type="Path2D"]
 curve = SubResource("Curve2D_aq83s")
 script = ExtResource("1_swcnd")
 treasure_scene = ExtResource("2_8ydbn")
@@ -19,7 +19,7 @@ treasure_scene = ExtResource("2_8ydbn")
 cubic_interp = false
 loop = false
 
-[node name="Area2D" type="Area2D" parent="PathFollow2D"]
+[node name="Area2D" type="Area2D" parent="PathFollow2D" groups=["ennemy"]]
 rotation = -1.5708
 
 [node name="Sprite2D" type="Sprite2D" parent="PathFollow2D/Area2D"]
