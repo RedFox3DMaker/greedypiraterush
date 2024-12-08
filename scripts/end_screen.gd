@@ -17,27 +17,20 @@ func reset() -> void:
 	anim_player.stop()
 	visible = false
 	restart_button.hide()
+	exit_button.hide()
 
 func _on_timer_timeout() -> void:
-	_game_over()
+	_game_over(true)
 
 
 func _on_player_is_dead() -> void:
-	_game_over()
+	_game_over(true)
 
 
-func _game_over() -> void:
+func _game_over(fail: bool) -> void:
 	visible = true
-	anim_player.play("game_over")
-	await anim_player.animation_finished
-	endgame.emit(true)
-	restart_button.show()
-
-
-func _on_player_has_won() -> void:
-	visible = true
-	anim_player.play("victory")
-	endgame.emit(false)
+	endgame.emit(fail)
+	anim_player.play("game_over" if fail else "victory")
 	await anim_player.animation_finished
 	restart_button.show()
 	exit_button.show()
@@ -49,3 +42,7 @@ func _on_restart_button_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func set_victory(true_victory: bool) -> void:
+	$SuccessLabel.text = "You're safe." if not true_victory else "Victory !!"

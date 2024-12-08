@@ -56,9 +56,9 @@ func compute_astar_path(end: Vector2i) -> void:
 	
 	# get the current position on the level as map coordinates
 	var self_map_position: Vector2i = pirate_world.convert_position(global_position)
-	
-	for point in astar_grid.get_point_path(self_map_position, end):
-		curve.add_point(pirate_world.to_global(point) - global_position)
+	if astar_grid.region.has_point(end):
+		for point in astar_grid.get_point_path(self_map_position, end):
+			curve.add_point(pirate_world.to_global(point) - global_position)
 		
 
 func choose_target() -> Vector2i:

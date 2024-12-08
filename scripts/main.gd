@@ -1,6 +1,10 @@
 extends Node2D
 
 
+# members
+var total_rewards: int
+var ennemy: Ennemy
+
 # public members
 @export var ennemy_scene: PackedScene
 
@@ -17,25 +21,25 @@ func init() -> void:
 	# set the player at the right position
 	player.reset(level1.get_player_initial_position())
 	
-	# init the ennemy ship
-	var ennemies = get_tree().get_nodes_in_group("ennemy")
-	for ennemy in ennemies:
-		ennemy.remove_from_group("ennemy")
+	# remove the ennemy ship is still here
+	if is_instance_valid(ennemy):
 		remove_child(ennemy)
 		ennemy.queue_free()
 	
-	var ennemy_inst: Ennemy = ennemy_scene.instantiate()
-	ennemy_inst.set_pirate_world(level1)
-	add_child(ennemy_inst)
-	ennemy_inst.reset(level1.get_ennemy_initial_position())
-	ennemy_inst.dead.connect(level1.on_ennemy_dead)
+	ennemy = ennemy_scene.instantiate()
+	ennemy.set_pirate_world(level1)
+	add_child(ennemy)
+	ennemy.reset(level1.get_ennemy_initial_position())
+	ennemy.dead.connect(level1.on_ennemy_dead)
 	
 	# create the treasures and connect their signals
 	var treasures: Array[Node] = level1.init_rewards()
 	for treasure: Treasure in treasures:
+		total_rewards += treasure.reward
 		treasure.player_gained.connect(_on_player_reward_gained)
-		treasure.ennemy_gained.connect(ennemy_inst.on_treasure_gained)
+		treasure.ennemy_gained.connect(ennemy.on_treasure_gained)
 	
+	print("total rewards: ", total_rewards)
 	# start the music
 	AudioManager.play("ambiant")
 
@@ -81,3 +85,12 @@ func _on_player_reward_gained(reward: int) -> void:
 	if !timer.is_stopped() or !timer.is_paused():
 		hud.add_to_score(reward)
 		
+
+
+func _on_player_has_won() -> void:
+	# compute the total rewards
+	print("total rewards(game_end): ", total_rewards)
+	print("hud score: ", hud.score)
+	
+	end_screen.set_victory(total_rewards == hud.score)
+	end_screen._game_over(false)
