@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b85oycvx061u2"]
+[gd_scene load_steps=17 format=3 uid="uid://b85oycvx061u2"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_jed3g"]
 [ext_resource type="LabelSettings" uid="uid://cx50yfbdnme4d" path="res://assets/fonts/label_settings.tres" id="1_sqe0k"]
@@ -12,8 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://cqx3fkcwhr3ti" path="res://assets/ux/keyboard_arrow_down.png" id="9_3asdy"]
 [ext_resource type="Texture2D" uid="uid://brvrnxiht063j" path="res://assets/ux/keyboard_d.png" id="10_rro4x"]
 [ext_resource type="Texture2D" uid="uid://brq7qivaytl11" path="res://assets/ux/keyboard_arrow_right.png" id="11_6p4a6"]
-[ext_resource type="Texture2D" uid="uid://ijtkux1bi1pe" path="res://assets/ux/keyboard_l.png" id="12_jn3m5"]
-[ext_resource type="Texture2D" uid="uid://bvk7yhr30i50d" path="res://assets/ux/keyboard_r.png" id="13_1xlo2"]
 [ext_resource type="Texture2D" uid="uid://b11m1h8624r4a" path="res://assets/ux/keyboard_k.png" id="14_eo2lo"]
 [ext_resource type="Texture2D" uid="uid://kute3bw0a2kg" path="res://assets/ux/keyboard_f.png" id="15_bgm30"]
 
@@ -68,23 +66,21 @@ layout_mode = 2
 text = "G"
 label_settings = ExtResource("3_ltn62")
 
-[node name="Bombs" type="VBoxContainer" parent="."]
+[node name="Bullets" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 136.0
 offset_right = 173.0
 offset_bottom = 185.0
 
-[node name="BombsTitle" type="Label" parent="Bombs"]
+[node name="BulletsTitle" type="Label" parent="Bullets"]
 layout_mode = 2
-text = "Bombs"
+text = "Bullets"
 label_settings = ExtResource("1_sqe0k")
 
-[node name="BombsIcons" type="GridContainer" parent="Bombs"]
+[node name="BulletsIcons" type="GridContainer" parent="Bullets"]
 layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="Bombs/BombsIcons"]
-layout_mode = 2
+columns = 5
 
 [node name="Gamezone" type="ReferenceRect" parent="."]
 layout_mode = 0
@@ -179,24 +175,6 @@ texture = ExtResource("11_6p4a6")
 [node name="RightLabel" type="Label" parent="Controls/ControlsList"]
 layout_mode = 2
 text = "Right"
-label_settings = ExtResource("3_ltn62")
-
-[node name="LKey" type="TextureRect" parent="Controls/ControlsList"]
-layout_mode = 2
-texture = ExtResource("12_jn3m5")
-
-[node name="Separator5" type="Label" parent="Controls/ControlsList"]
-layout_mode = 2
-text = "/"
-label_settings = ExtResource("3_ltn62")
-
-[node name="RKey" type="TextureRect" parent="Controls/ControlsList"]
-layout_mode = 2
-texture = ExtResource("13_1xlo2")
-
-[node name="RewardLabel" type="Label" parent="Controls/ControlsList"]
-layout_mode = 2
-text = "Reward"
 label_settings = ExtResource("3_ltn62")
 
 [node name="KKey" type="TextureRect" parent="Controls/ControlsList"]

@@ -15,11 +15,13 @@ var status_index = 0
 var moving = false
 var current_dir = "down"
 var allow_move = true
+var num_bullets_fired: int = 0
 
 
 # public members
 @export var animation_speed: int = 3
 @export var bullet_scene: PackedScene
+@export var num_bullets: int = 25
 
 
 # nodes
@@ -27,12 +29,13 @@ var allow_move = true
 @onready var sprite = $Sprite2D
 @onready var animation_player: AnimationPlayer = $Sprite2D/AnimationPlayer
 @onready var bullet_spawn_location: Marker2D = $Sprite2D/BulletSpawnLocation
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 
 # signals
 signal is_dead
 signal has_won
-signal ask_for_reward
+signal bullet_fired
 
 
 func stop() -> void:
@@ -40,12 +43,12 @@ func stop() -> void:
 
 
 func reset(initial_pos: Vector2) -> void:
-	position = initial_pos
-	position = position.snapped(Vector2.ONE * TILE_SIZE)
+	position = initial_pos.snapped(Vector2.ONE * TILE_SIZE)
 	position += Vector2.ONE * TILE_SIZE/2
 	status_index = 0
 	current_dir = "down"
 	allow_move = true
+	num_bullets_fired = 0
 	update_animation(current_dir)
 	show()
 
@@ -66,7 +69,8 @@ func update_animation(dir: String) -> void:
 	# update the rotation to match the direction
 	assert(dir in dir_rotation)
 	sprite.rotation = dir_rotation[dir]
-
+	collision_shape.rotation = dir_rotation[dir]
+	
 
 func move(dir: String) -> void:
 	ray.target_position = inputs[dir] * TILE_SIZE
@@ -84,8 +88,6 @@ func move(dir: String) -> void:
 		
 func _unhandled_input(event: InputEvent) -> void:
 	if !allow_move: return 
-	if event.is_action_pressed("pick_reward"):
-		ask_for_reward.emit()
 	if event.is_action_pressed("shoot"):
 		shoot()
 		
@@ -124,8 +126,13 @@ func _on_body_entered(body: Node2D) -> void:
 		
 		
 func shoot():
+	if num_bullets_fired >= num_bullets:
+		return
+		
 	animation_player.play("fire")
 	AudioManager.play("explosion")
 	var bullet = bullet_scene.instantiate()
 	owner.add_child(bullet)
 	bullet.transform = bullet_spawn_location.global_transform
+	bullet_fired.emit()
+	num_bullets_fired += 1

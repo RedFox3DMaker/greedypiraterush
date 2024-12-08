@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c4mhj4siw2omn"]
+[gd_scene load_steps=8 format=3 uid="uid://c4mhj4siw2omn"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_0k57n"]
 [ext_resource type="PackedScene" uid="uid://f0v4iu8kbwpr" path="res://scenes/pirate_world.tscn" id="2_esssv"]
@@ -6,9 +6,11 @@
 [ext_resource type="Script" path="res://scripts/timer.gd" id="4_5u8hd"]
 [ext_resource type="PackedScene" uid="uid://b85oycvx061u2" path="res://scenes/hud.tscn" id="5_q3r0m"]
 [ext_resource type="PackedScene" uid="uid://dxkjpndvcy7di" path="res://scenes/end_screen.tscn" id="6_t33c6"]
+[ext_resource type="PackedScene" uid="uid://c663u565o5ii6" path="res://scenes/ennemy.tscn" id="7_utbh8"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0k57n")
+ennemy_scene = ExtResource("7_utbh8")
 
 [node name="Level1" parent="." instance=ExtResource("2_esssv")]
 position = Vector2(200, 40)
@@ -34,8 +36,7 @@ offset_top = 39.0
 offset_right = 201.0
 offset_bottom = 39.0
 
-[connection signal="ask_for_reward" from="Player" to="." method="_on_player_ask_for_reward"]
-[connection signal="has_won" from="Player" to="EndScreen" method="_on_player_has_won"]
+[connection signal="has_won" from="Player" to="." method="_on_player_has_won"]
 [connection signal="is_dead" from="Player" to="EndScreen" method="_on_player_is_dead"]
 [connection signal="status_changed" from="Timer" to="Player" method="_on_timer_status_changed"]
 [connection signal="timeout" from="Timer" to="EndScreen" method="_on_timer_timeout"]

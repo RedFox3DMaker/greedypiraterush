@@ -95,8 +95,7 @@ _data = {
 "splash": SubResource("Animation_he1tg")
 }
 
-[node name="Bullet" type="Area2D"]
-z_index = 1
+[node name="Bullet" type="Area2D" groups=["bullet"]]
 script = ExtResource("1_d7d72")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
