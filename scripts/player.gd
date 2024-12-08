@@ -15,11 +15,13 @@ var status_index = 0
 var moving = false
 var current_dir = "down"
 var allow_move = true
+var num_bullets_fired: int = 0
 
 
 # public members
 @export var animation_speed: int = 3
 @export var bullet_scene: PackedScene
+@export var num_bullets: int = 25
 
 
 # nodes
@@ -33,6 +35,7 @@ var allow_move = true
 # signals
 signal is_dead
 signal has_won
+signal bullet_fired
 
 
 func stop() -> void:
@@ -45,6 +48,7 @@ func reset(initial_pos: Vector2) -> void:
 	status_index = 0
 	current_dir = "down"
 	allow_move = true
+	num_bullets_fired = 0
 	update_animation(current_dir)
 	show()
 
@@ -122,8 +126,13 @@ func _on_body_entered(body: Node2D) -> void:
 		
 		
 func shoot():
+	if num_bullets_fired >= num_bullets:
+		return
+		
 	animation_player.play("fire")
 	AudioManager.play("explosion")
 	var bullet = bullet_scene.instantiate()
 	owner.add_child(bullet)
 	bullet.transform = bullet_spawn_location.global_transform
+	bullet_fired.emit()
+	num_bullets_fired += 1

@@ -66,23 +66,21 @@ layout_mode = 2
 text = "G"
 label_settings = ExtResource("3_ltn62")
 
-[node name="Bombs" type="VBoxContainer" parent="."]
+[node name="Bullets" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 136.0
 offset_right = 173.0
 offset_bottom = 185.0
 
-[node name="BombsTitle" type="Label" parent="Bombs"]
+[node name="BulletsTitle" type="Label" parent="Bullets"]
 layout_mode = 2
-text = "Bombs"
+text = "Bullets"
 label_settings = ExtResource("1_sqe0k")
 
-[node name="BombsIcons" type="GridContainer" parent="Bombs"]
+[node name="BulletsIcons" type="GridContainer" parent="Bullets"]
 layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="Bombs/BombsIcons"]
-layout_mode = 2
+columns = 5
 
 [node name="Gamezone" type="ReferenceRect" parent="."]
 layout_mode = 0

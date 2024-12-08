@@ -39,6 +39,8 @@ func init() -> void:
 
 
 func _ready() -> void:
+	hud.init_bullets()
+	player.bullet_fired.connect(hud.on_bullet_fired)
 	init()
 
 
@@ -48,6 +50,7 @@ func _on_end_screen_restart() -> void:
 	
 	# reset the score
 	hud.reset_score()
+	hud.reset_bullets()
 	
 	# remove remaining reward and create new ones
 	level1.clean_treasures()
