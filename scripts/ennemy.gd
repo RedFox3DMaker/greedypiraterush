@@ -8,13 +8,16 @@ var cell_size: Vector2i
 var pirate_world: PirateWorld
 var astar_grid = AStarGrid2D.new()
 var target_treasure: Treasure
-
+var reward: int
 
 # public member
 @export var speed: int = 100
+@export var treasure_scene: PackedScene
+
 
 # nodes
 @onready var path_follow: PathFollow2D = $PathFollow2D
+@onready var sprite: Sprite2D = $PathFollow2D/Area2D/Sprite2D
 
 
 func set_pirate_world(world: PirateWorld) -> void:
@@ -88,3 +91,24 @@ func _process(delta: float) -> void:
 	# check if the treasure is still valid and the ship is moving towards it
 	if target_treasure in treasures and path_follow.progress_ratio < 1:
 		path_follow.progress += speed * delta
+		
+		
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.is_in_group("bullet"):
+		if sprite.frame < sprite.hframes -1:
+			sprite.frame += 1
+		else:
+			if reward > 0:
+				# instantiate the treasure scene at the current coordinates
+				var treasure_inst = treasure_scene.instantiate()
+				treasure_inst.global_position = global_position
+				owner.add_child(treasure_inst)
+				treasure_inst.reward = reward
+				get_tree().get_nodes_in_group("treasures").append(treasure_inst)
+			
+			# delete the ennemy
+			remove_from_group("ennemy")
+			queue_free()
+			

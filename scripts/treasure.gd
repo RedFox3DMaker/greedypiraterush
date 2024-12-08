@@ -25,6 +25,9 @@ func _ready() -> void:
 func _on_area_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		gained.emit(reward)
+	elif body.is_in_group("ennemy"):
+		var ennemy = body as Ennemy
+		ennemy.reward += reward
 	AudioManager.play("coins")
 	remove_from_group("treasures")
 	queue_free()

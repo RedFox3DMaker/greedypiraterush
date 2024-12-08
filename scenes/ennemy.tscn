@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c663u565o5ii6"]
+[gd_scene load_steps=6 format=3 uid="uid://c663u565o5ii6"]
 
 [ext_resource type="Texture2D" uid="uid://b5hyy3wxqk32c" path="res://assets/sprites/Ennemy1.png" id="1_ccf0g"]
 [ext_resource type="Script" path="res://scripts/ennemy.gd" id="1_swcnd"]
+[ext_resource type="PackedScene" uid="uid://ddiisj2bwo24d" path="res://scenes/treasure.tscn" id="2_8ydbn"]
 
 [sub_resource type="Curve2D" id="Curve2D_aq83s"]
 
@@ -9,9 +10,10 @@
 radius = 18.0
 height = 56.0
 
-[node name="Ennemy" type="Path2D"]
+[node name="Ennemy" type="Path2D" groups=["ennemy"]]
 curve = SubResource("Curve2D_aq83s")
 script = ExtResource("1_swcnd")
+treasure_scene = ExtResource("2_8ydbn")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 cubic_interp = false
@@ -26,4 +28,7 @@ texture = ExtResource("1_ccf0g")
 hframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Area2D"]
+y_sort_enabled = true
 shape = SubResource("CapsuleShape2D_per4x")
+
+[connection signal="area_entered" from="PathFollow2D/Area2D" to="." method="_on_area_2d_area_entered"]

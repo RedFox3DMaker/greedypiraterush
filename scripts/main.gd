@@ -1,9 +1,12 @@
 extends Node2D
 
 
+# public members
+@export var ennemy_scene: PackedScene
+
+
 # nodes
 @onready var player: Player = $Player
-@onready var ennemy: Ennemy = $Ennemy
 @onready var level1: PirateWorld = $Level1
 @onready var timer: Timer = $Timer
 @onready var hud: HUD = $HUD
@@ -20,6 +23,14 @@ func init() -> void:
 	player.reset(level1.get_player_initial_position())
 	
 	# init the ennemy ship
+	var ennemies = get_tree().get_nodes_in_group("ennemy")
+	for ennemy in ennemies:
+		ennemy.remove_from_group("ennemy")
+		remove_child(ennemy)
+		ennemy.queue_free()
+	
+	var ennemy = ennemy_scene.instantiate()
+	add_child(ennemy)
 	ennemy.set_pirate_world(level1)
 	ennemy.reset(level1.get_ennemy_initial_position())
 	

@@ -27,6 +27,7 @@ var allow_move = true
 @onready var sprite = $Sprite2D
 @onready var animation_player: AnimationPlayer = $Sprite2D/AnimationPlayer
 @onready var bullet_spawn_location: Marker2D = $Sprite2D/BulletSpawnLocation
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 
 # signals
@@ -64,7 +65,8 @@ func update_animation(dir: String) -> void:
 	# update the rotation to match the direction
 	assert(dir in dir_rotation)
 	sprite.rotation = dir_rotation[dir]
-
+	collision_shape.rotation = dir_rotation[dir]
+	
 
 func move(dir: String) -> void:
 	ray.target_position = inputs[dir] * TILE_SIZE

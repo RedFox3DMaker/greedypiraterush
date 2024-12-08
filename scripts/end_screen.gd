@@ -37,8 +37,8 @@ func _game_over() -> void:
 func _on_player_has_won() -> void:
 	visible = true
 	anim_player.play("victory")
-	await anim_player.animation_finished
 	endgame.emit(false)
+	await anim_player.animation_finished
 	restart_button.show()
 	exit_button.show()
 	
