@@ -43,19 +43,13 @@ func stop() -> void:
 
 
 func reset(initial_pos: Vector2) -> void:
-	position = initial_pos.snapped(Vector2.ONE * TILE_SIZE)
-	position += Vector2.ONE * TILE_SIZE/2
+	position = initial_pos
 	status_index = 0
 	current_dir = "down"
 	allow_move = true
 	num_bullets_fired = 0
 	update_animation(current_dir)
 	show()
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	reset(position)
 
 
 var dir_rotation = {"down": 0, "right": -PI/2, "up": PI, "left": PI/2}
@@ -84,6 +78,9 @@ func move(dir: String) -> void:
 		AudioManager.play("sailing")
 		await tween.finished
 		moving = false
+	else:
+		var collider = ray.get_collider() as Node2D
+		check_collision_with_sand(collider)
 		
 		
 func _unhandled_input(event: InputEvent) -> void:
@@ -110,7 +107,7 @@ func _on_timer_status_changed() -> void:
 	update_animation(current_dir)
 
 
-func _on_body_entered(body: Node2D) -> void:
+func check_collision_with_sand(body: Node2D) -> void:
 	var tilemap = body as TileMapLayer
 	if !tilemap: return
 		

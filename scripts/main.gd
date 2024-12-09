@@ -7,6 +7,7 @@ var ennemy: Ennemy
 
 # public members
 @export var ennemy_scene: PackedScene
+@export var treasure_scene: PackedScene
 
 
 # nodes
@@ -30,16 +31,18 @@ func init() -> void:
 	ennemy.set_pirate_world(level1)
 	add_child(ennemy)
 	ennemy.reset(level1.get_ennemy_initial_position())
-	ennemy.dead.connect(level1.on_ennemy_dead)
+	ennemy.dead.connect(_on_ennemy_dead)
 	
 	# create the treasures and connect their signals
+	total_rewards = 0
 	var treasures: Array[Node] = level1.init_rewards()
 	for treasure: Treasure in treasures:
+		print("reward(init): ", treasure.reward)
 		total_rewards += treasure.reward
 		treasure.player_gained.connect(_on_player_reward_gained)
 		treasure.ennemy_gained.connect(ennemy.on_treasure_gained)
 	
-	print("total rewards: ", total_rewards)
+	print("total rewards(game_start): ", total_rewards)
 	# start the music
 	AudioManager.play("ambiant")
 
@@ -83,6 +86,7 @@ func _on_player_reward_gained(reward: int) -> void:
 	# during the play time, if the reward is granted, 
 	# update the score
 	if !timer.is_stopped() or !timer.is_paused():
+		print("reward:", reward)
 		hud.add_to_score(reward)
 		
 
@@ -94,3 +98,13 @@ func _on_player_has_won() -> void:
 	
 	end_screen.set_victory(total_rewards == hud.score)
 	end_screen._game_over(false)
+
+
+func _on_ennemy_dead(reward: int, init_glob_position: Vector2) -> void:
+	# instantiate the treasure scene at the current coordinates
+	var treasure_inst = treasure_scene.instantiate()
+	var map_position = level1.sand_layer.local_to_map(init_glob_position)
+	treasure_inst.position = level1.sand_layer.map_to_local(map_position - 2*Vector2i.ONE)
+	call_deferred("add_child", treasure_inst)
+	treasure_inst.reward = reward
+	treasure_inst.player_gained.connect(_on_player_reward_gained)

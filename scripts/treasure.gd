@@ -12,14 +12,9 @@ const TILE_SIZE = 64
 signal player_gained(reward: int)
 signal ennemy_gained(reward: int)
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+func compute_reward() -> void:
 	# compute the reward
 	reward = randi() % MAX_REWARD + 1
-	# snap to the grid
-	position = position.snapped(Vector2.ONE * TILE_SIZE / 2)
-	position += Vector2.ONE * TILE_SIZE/2
-	# print("position: ", position)
 
 
 func _on_area_entered(area: Area2D) -> void:
