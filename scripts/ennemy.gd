@@ -32,13 +32,13 @@ func set_pirate_world(world: PirateWorld) -> void:
 
 
 func reset(initial_glob_pos: Vector2) -> void:
-	global_position = initial_glob_pos.snapped(cell_size)
+	global_position = initial_glob_pos
 	path_follow.progress_ratio = 0
 	
 	
 func initialize_astar():
 	astar_grid.clear()
-	astar_grid.region = Rect2i(0, 0, pirate_world.NB_HORIZONTAL_TILES+1, pirate_world.NB_VERTICAL_TILES+1)
+	astar_grid.region = Rect2i(0, 0, pirate_world.NB_HORIZONTAL_TILES, pirate_world.NB_VERTICAL_TILES)
 	astar_grid.cell_size = cell_size
 	astar_grid.offset = cell_size / 2
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
@@ -57,6 +57,7 @@ func compute_astar_path(end: Vector2i) -> void:
 	# get the current position on the level as map coordinates
 	var self_map_position: Vector2i = pirate_world.convert_position(global_position)
 	if astar_grid.region.has_point(end):
+		
 		for point in astar_grid.get_point_path(self_map_position, end):
 			curve.add_point(pirate_world.to_global(point) - global_position)
 		
@@ -97,8 +98,6 @@ func _process(delta: float) -> void:
 		path_follow.progress += speed * delta
 		
 		
-
-
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
 		if sprite.frame < sprite.hframes -1:
@@ -106,7 +105,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		else:
 			print("reward: ", reward)
 			if reward > 0:
-				dead.emit(reward, global_position)
+				dead.emit(reward, global_position + path_follow.position)
 			
 			# delete the ennemy
 			area2D.remove_from_group("ennemy")

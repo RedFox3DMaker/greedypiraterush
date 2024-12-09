@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4mhj4siw2omn"]
+[gd_scene load_steps=9 format=3 uid="uid://c4mhj4siw2omn"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_0k57n"]
 [ext_resource type="PackedScene" uid="uid://f0v4iu8kbwpr" path="res://scenes/pirate_world.tscn" id="2_esssv"]
 [ext_resource type="PackedScene" uid="uid://xshjxphjm5f4" path="res://scenes/player.tscn" id="3_c20tf"]
+[ext_resource type="PackedScene" uid="uid://ddiisj2bwo24d" path="res://scenes/treasure.tscn" id="3_pk5t1"]
 [ext_resource type="Script" path="res://scripts/timer.gd" id="4_5u8hd"]
 [ext_resource type="PackedScene" uid="uid://b85oycvx061u2" path="res://scenes/hud.tscn" id="5_q3r0m"]
 [ext_resource type="PackedScene" uid="uid://dxkjpndvcy7di" path="res://scenes/end_screen.tscn" id="6_t33c6"]
@@ -11,13 +12,14 @@
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0k57n")
 ennemy_scene = ExtResource("7_utbh8")
+treasure_scene = ExtResource("3_pk5t1")
 
 [node name="Level1" parent="." instance=ExtResource("2_esssv")]
 position = Vector2(200, 40)
 nb_treasures = 10
 
 [node name="Player" parent="." instance=ExtResource("3_c20tf")]
-position = Vector2(355, 322)
+position = Vector2(360, 328)
 animation_speed = 5
 
 [node name="Timer" type="Timer" parent="."]
